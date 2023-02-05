@@ -1,5 +1,6 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
+import bootstrap from './task.js';
 
 const program = new Command();
 
@@ -11,8 +12,9 @@ program
   .command('create')
   .description('create a new project in a new directory')
   .argument('<project-name>', 'Project name')
-  .action(projectName => {
-    console.log(chalk.green(`🥇  Successfully created ${chalk.cyan(projectName)}`));
+  .action(async projectName => {
+    await bootstrap(projectName);
+    console.log(chalk.green(`🥇 Successfully created ${chalk.cyan(projectName)}`));
   });
 
 program.parse(process.argv);
