@@ -13,7 +13,7 @@ program
   .description('create a new project in a new directory')
   .argument('<project-name>', 'Project name')
   .action(async projectName => {
-    await bootstrap(projectName);
+    await bootstrap(projectName, ['foobar']);
     console.log(chalk.green(`🥇 Successfully created ${chalk.cyan(projectName)}`));
   });
 

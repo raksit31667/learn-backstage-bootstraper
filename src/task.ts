@@ -4,7 +4,7 @@ import { basename, dirname, resolve as resolvePath } from 'path';
 import recursive from 'recursive-readdir';
 import handlebars from 'handlebars';
 
-const bootstrap = async (projectName: string) => {
+const bootstrap = async (projectName: string, plugins: string[]) => {
   const templateDirectory = resolvePath(dirname(''), 'templates/default-project');
   const temporaryDirectory = resolvePath(os.tmpdir(), projectName);
   const targetDirectory = resolvePath(fs.realpathSync(process.cwd()), projectName);
@@ -12,6 +12,7 @@ const bootstrap = async (projectName: string) => {
   console.log('Bootstrap the project...');
 
   try {
+    handlebars.registerHelper('eq', (a, b) => a === b);
     console.log('Creating a temporary directory...');
     await fs.mkdir(temporaryDirectory);
 
@@ -29,7 +30,7 @@ const bootstrap = async (projectName: string) => {
 
         const template = await fs.readFile(file);
         const compiled = handlebars.compile(template.toString());
-        const contents = compiled({ name: basename(destination), projectName });
+        const contents = compiled({ name: basename(destination), projectName, plugins });
 
         await fs.writeFile(destination, contents).catch(error => {
           throw new Error(
@@ -43,6 +44,16 @@ const bootstrap = async (projectName: string) => {
           );
         });
       }
+    }
+
+    for (const plugin of plugins) {
+      const pluginTemplateDirectory = resolvePath(dirname(''), `templates/plugins/${plugin}`);
+      const pluginTargetDirectory = resolvePath(os.tmpdir(), projectName, `plugins/${plugin}`);
+      await fs.copy(pluginTemplateDirectory, pluginTargetDirectory).catch(error => {
+        throw new Error(
+          `Failed to copy a plugin ${plugin} to ${pluginTargetDirectory} : ${error.message}`
+        );
+      });
     }
 
     console.log('Moving to target directory...');
