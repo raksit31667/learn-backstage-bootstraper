@@ -96,6 +96,11 @@ const routes = (
     </Route>
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
+    {{#each plugins}}
+    {{#if (eq this "foobar")}}
+    <Route path="/foobar" element={<FoobarPage />} />
+    {{/if}}
+    {{/each}}
   </FlatRoutes>
 );
 
