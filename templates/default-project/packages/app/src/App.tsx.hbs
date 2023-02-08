@@ -36,6 +36,8 @@ import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/
 {{#each plugins}}
 {{#if (eq this "foobar")}}
 import { FoobarPage } from '@internal/plugin-foobar';
+{{else if (eq this "fizzbuzz")}}
+import { FizzbuzzPage } from '@internal/plugin-fizzbuzz';
 {{/if}}
 {{/each}}
 
@@ -99,6 +101,8 @@ const routes = (
     {{#each plugins}}
     {{#if (eq this "foobar")}}
     <Route path="/foobar" element={<FoobarPage />} />
+    {{else if (eq this "fizzbuzz")}}
+    <Route path="/fizzbuzz" element={<FizzbuzzPage />} />
     {{/if}}
     {{/each}}
   </FlatRoutes>

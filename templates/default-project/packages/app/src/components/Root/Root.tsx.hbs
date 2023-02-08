@@ -69,6 +69,8 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         {{#each plugins}}
         {{#if (eq this "foobar")}}
         <SidebarItem icon={CategoryIcon} to="foobar" text="Foobar" />
+        {{else if (eq this "fizzbuzz")}}
+        <SidebarItem icon={CategoryIcon} to="fizzbuzz" text="Fizzbuzz" />
         {{/if}}
         {{/each}}
         <SidebarItem icon={HomeIcon} to="catalog" text="Home" />

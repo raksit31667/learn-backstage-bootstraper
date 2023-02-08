@@ -46,6 +46,8 @@
     {{#each plugins}}
     {{#if (eq this "foobar")}}
     "@internal/plugin-foobar": "^0.1.0",
+    {{else if (eq this "fizzbuzz")}}
+    "@internal/plugin-fizzbuzz": "^0.1.0",
     {{/if}}
     {{/each}}
     "@material-ui/core": "^4.12.2",
